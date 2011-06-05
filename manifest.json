@@ -1,0 +1,15 @@
+{
+  "name": "Next",
+  "version": "0.99",
+  "description": "The first extension that I made.",
+  "page_action": {
+    "default_icon": "next-icon.png",
+    "default_title": "Next"
+  },
+  "background_page": "background.html",
+  "permissions": [
+    "tabs", 
+    "http://*/*",
+    "https://*/*"
+  ]
+}
