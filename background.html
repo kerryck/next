@@ -2,42 +2,41 @@
 <html>
   <head>
     <script>
-      var urlMatcher = /\d+/g;
-      
-      var matches = {};
-      // Called when the url of a tab changes.
-      var checkForValidUrl = function(tabId, changeInfo, tab) {
-        var match = tab.url.match(urlMatcher);
-        console.log(tabId, tab.url, match);
-        
-        if (match !== null ) {
-          matches[tabId] = match.pop()
-          chrome.pageAction.show(tabId);
-          chrome.tabs.executeScript(null, {file: "contentscript.js"});
-        } else {
-          delete matches[tabId];
-          chrome.pageAction.hide(tabId);
-        }
-      };
+        var urlMatcher = /\d+(?!.+\d+)/g;
 
-      chrome.extension.onRequest.addListener(function(message, source){
-        if(message.changePage === true){
-          var tabId = source.tab.id;
-          var next = parseInt(matches[tabId], 10);
-          var newUrl = source.tab.url.replace(matches[tabId], 
-                                               next + message.changeAmmount);
-        
-          chrome.tabs.update(source.tab.id, {url: newUrl})
-        }
-      });
+        // Called when tab loads. Conditionally inserts contentscript.
+        var checkForValidUrl = function(tabId, changeInfo, tab) {
+            if(changeInfo.status !== 'loading') return;
+
+            if(tab.url.match(urlMatcher)) {
+                chrome.tabs.executeScript(null, {file: "contentscript.js"});
+                chrome.pageAction.show(tabId);
+            } else {
+                chrome.pageAction.hide(tabId);
+            }
+        };
+
+        // Recieve message from the contentscript and update URL.
+        chrome.extension.onRequest.addListener(function(message, source){
+            if(message.changePage === true){
+                var tabId = source.tab.id,
+                    url = source.tab.url,
+                    match = url.match(urlMatcher);
+                if(!match) return;
+
+                var nextNum = parseInt(match, 10) + message.changeBy,
+                    nextStr = nextNum.toString();
+
+                while(nextStr.length < match.length) nextStr = "0" + nextStr;
+
+                var newUrl =  url.replace(urlMatcher, nextStr);
+
+                chrome.tabs.update(source.tab.id, {url: newUrl})
+            }
+        });
+
       // Listen for any changes to the URL of any tab.
       chrome.tabs.onUpdated.addListener(checkForValidUrl);
     </script>
   </head>
 </html>
-
-<!--
-
-{"favIconUrl":"https://developer.mozilla.org/favicon.ico","id":26,"incognito":false,"index":6,"pinned":false,"selected":true,"status":"complete","title":"test - MDC Docs","url":"https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/RegExp/test","windowId":1}
-
--->

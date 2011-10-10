@@ -1,7 +1,7 @@
 {
   "name": "Next",
   "version": "0.99",
-  "description": "The first extension that I made.",
+  "description": "Goto the next/previous page in a sequence.",
   "page_action": {
     "default_icon": "next-icon.png",
     "default_title": "Next"
