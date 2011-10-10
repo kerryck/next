@@ -1,15 +1,20 @@
 {
-  "name": "Next",
-  "version": "0.99",
-  "description": "Goto the next/previous page in a sequence.",
-  "page_action": {
-    "default_icon": "next-icon.png",
-    "default_title": "Next"
-  },
-  "background_page": "background.html",
-  "permissions": [
-    "tabs", 
-    "http://*/*",
-    "https://*/*"
-  ]
+    "name": "Next",
+    "version": "0.99",
+    "description": "Goto the next/previous page in a sequence.",
+    "page_action": {
+        "default_icon": "next-icon.png",
+        "default_title": "Next"
+    },
+    "icons": {
+        "16": "icon16.png",
+        "48": "icon48.png",
+        "128": "icon128.png"
+    },
+    "background_page": "background.html",
+    "permissions": [
+        "tabs",
+        "http://*/*",
+        "https://*/*"
+    ]
 }
