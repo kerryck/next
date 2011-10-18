@@ -21,7 +21,7 @@
             if(message.changePage === true){
                 var tabId = source.tab.id,
                     url = source.tab.url,
-                    match = url.match(urlMatcher);
+                    match = url.match(urlMatcher)[0];
                 if(!match) return;
 
                 var nextNum = parseInt(match, 10) + message.changeBy,
