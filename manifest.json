@@ -1,7 +1,8 @@
 {
-    "name": "Next",
-    "version": "0.99",
-    "description": "Goto the next/previous page in a sequence.",
+    "name": "Gallerify the Web",
+    "version": "1",
+    "description":
+        "Adds next and previous functionality to websites with numerical URLs.",
     "page_action": {
         "default_icon": "next-icon.png",
         "default_title": "Next"
